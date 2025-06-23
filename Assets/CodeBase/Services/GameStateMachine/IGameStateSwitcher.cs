@@ -1,4 +1,4 @@
-﻿using Assets.CodeBase.Infrastructure.ServiceLocator;
+﻿using CodeBase.Infrastructure.DependencyInjection;
 using Assets.CodeBase.Infrastructure.StateMachine;
 
 namespace Assets.CodeBase.Infrastructure.Services.GameStateMachine

@@ -1,5 +1,5 @@
-﻿using Assets.CodeBase.Infrastructure.StateMachine;
-using Assets.CodeBase.Infrastructure.ServiceLocator;
+﻿using CodeBase.Infrastructure.DependencyInjection;
+using Assets.CodeBase.Infrastructure.StateMachine;
 
 namespace CodeBase.Infrastructure.Services.LevelStates
 {

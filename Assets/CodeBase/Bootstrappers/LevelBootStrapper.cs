@@ -1,21 +1,29 @@
-using CodeBase.GamePlay.Hero;
-using CodeBase.Infrastructure.AssetManagment;
-using CodeBase.Infrastructure.EntryPoint;
-using Assets.CodeBase.Infrastructure.ServiceLocator;
 using CodeBase.Infrastructure.Services.LevelStates;
+using CodeBase.Infrastructure.DependencyInjection;
 
 namespace CodeBase.Infrastructure
 {
     public class LevelBootStrapper : MonoBootStrapper
     {
-        public override void BootStrapp()
-        {
-            ILevelStateSwitcher levelStateSwitcher = AllServices.Container.Single<ILevelStateSwitcher>();
+        private ILevelStateSwitcher levelStateSwitcher;
+        private LevelBootStrappState levelBootStrappState;
 
-            levelStateSwitcher.AddState(new LevelBootStrappState(
-                AllServices.Container.Single<IAssetProvider>(),
-                AllServices.Container.Single<HeroSpawnPoint>()
-                ));
+        [Inject]
+        public void Construct(ILevelStateSwitcher levelStateSwitcher, 
+                              LevelBootStrappState levelBootStrappState)
+        {
+            this.levelStateSwitcher = levelStateSwitcher;
+            this.levelBootStrappState = levelBootStrappState;
+        }
+
+        public override void OnBindResolved()
+        {
+            InitLevelStateMachine();
+        }
+
+        private void InitLevelStateMachine()
+        {
+            levelStateSwitcher.AddState(levelBootStrappState);
 
             levelStateSwitcher.Enter<LevelBootStrappState>();
         }

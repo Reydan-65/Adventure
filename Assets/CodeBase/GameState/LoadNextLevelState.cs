@@ -1,6 +1,6 @@
-using Assets.CodeBase.Infrastructure.ServiceLocator;
-using Assets.CodeBase.Infrastructure.StateMachine;
+using CodeBase.Infrastructure.DependencyInjection;
 using CodeBase.Infrastructure.Scene;
+using UnityEditor.SceneManagement;
 
 namespace CodeBase.Infrastructure.Services.GameStates
 {
@@ -15,7 +15,12 @@ namespace CodeBase.Infrastructure.Services.GameStates
 
         public void Enter()
         {
-            sceneLoader.Load("Level_1");
+            string currentSceneName = EditorSceneManager.GetActiveScene().name;
+
+            if (currentSceneName == "BootStrap")
+                sceneLoader.Load("Level_1");
+            else
+                sceneLoader.Load(currentSceneName);
         }
     }
 }

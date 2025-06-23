@@ -1,4 +1,4 @@
-using Assets.CodeBase.Infrastructure.ServiceLocator;
+using CodeBase.Infrastructure.DependencyInjection;
 using CodeBase.Infrastructure.Services;
 using UnityEngine;
 
@@ -10,9 +10,10 @@ namespace CodeBase.GamePlay.Hero
 
         private IInputService inputService;
 
-        private void Start()
+        [Inject]
+        public void Construct(IInputService inputService)
         {
-            inputService = AllServices.Container.Single<IInputService>();
+            this.inputService = inputService;
         }
 
         private void Update()

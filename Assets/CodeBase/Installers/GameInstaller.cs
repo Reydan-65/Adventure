@@ -1,29 +1,39 @@
 using CodeBase.Infrastructure.AssetManagment;
-using CodeBase.Infrastructure.EntryPoint;
 using CodeBase.Infrastructure.Services;
 using CodeBase.Infrastructure.Scene;
 using CodeBase.Infrastructure.Services.GameStates;
+using CodeBase.Infrastructure.DependencyInjection;
+using CodeBase.Infrastructure.Services.Factory;
 using Assets.CodeBase.Infrastructure.Services.GameStateMachine;
-using Assets.CodeBase.Infrastructure.ServiceLocator;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure
 {
-    public class GameInstaller : MonoInstaller, ICoroutineRunner
+    public class GameInstaller : MonoInstaller
     {
-        protected override void InstallBindings()
+        public override void InstallBindings()
         {
             Debug.Log("GLOBAL: Install");
 
-            RegisterInputServices();
+            RegisterGameServices();
+
+            RegisterGameStateMachine();
         }
 
-        private void RegisterInputServices()
+        private void RegisterGameStateMachine()
         {
-            AllServices.Container.RegisterSingle<ISceneLoader>(new SceneLoader(this));
-            AllServices.Container.RegisterSingle<IGameStateSwitcher>(new GameStateMachine());
-            AllServices.Container.RegisterSingle<IAssetProvider>(new AssetProvider());
-            AllServices.Container.RegisterSingle<IInputService>(new InputService());
+            container.RegisterSingle<IGameStateSwitcher, GameStateMachine>();
+            container.RegisterSingle<GameBootStrappState>();
+            container.RegisterSingle<LoadNextLevelState>();
+        }
+
+        private void RegisterGameServices()
+        {
+            container.RegisterSingle<ICoroutineRunner, CoroutineRunner>();
+            container.RegisterSingle<IAssetProvider, AssetProvider>();
+            container.RegisterSingle<ISceneLoader, SceneLoader>();
+            container.RegisterSingle<IInputService, InputService>();
+            container.RegisterSingle<IGameFactory, GameFactory>();
         }
     }
 }

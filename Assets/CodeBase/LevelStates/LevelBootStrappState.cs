@@ -1,18 +1,17 @@
-using Assets.CodeBase.Infrastructure.ServiceLocator;
+using CodeBase.Infrastructure.DependencyInjection;
 using CodeBase.GamePlay.Hero;
-using CodeBase.Infrastructure.AssetManagment;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure.Services.LevelStates
 {
     public class LevelBootStrappState : IEnterableState, IService
     {
-        private IAssetProvider assetProvider;
+        private IGameFactory gameFactory;
         private HeroSpawnPoint heroSpawnPoint;
 
-        public LevelBootStrappState(IAssetProvider assetProvider, HeroSpawnPoint heroSpawnPoint)
+        public LevelBootStrappState(IGameFactory gameFactory, HeroSpawnPoint heroSpawnPoint)
         {
-            this.assetProvider = assetProvider;
+            this.gameFactory = gameFactory;
             this.heroSpawnPoint = heroSpawnPoint;
         }
 
@@ -20,14 +19,9 @@ namespace CodeBase.Infrastructure.Services.LevelStates
         {
             Debug.Log("LEVEL: Init");
 
-            GameObject hero = assetProvider.Instantiate<GameObject>(AssetPath.HeroPath);
-            hero.transform.position = heroSpawnPoint.transform.position;
-            hero.transform.rotation = heroSpawnPoint.transform.rotation;
-
-            FollowCamera followCamera = assetProvider.Instantiate<FollowCamera>(AssetPath.FollowCameraPath);
-            followCamera.SetTarget(hero.transform);
-
-            assetProvider.Instantiate<GameObject>(AssetPath.VirtualJoystickPath);
+            gameFactory.CreateHero(heroSpawnPoint.transform.position, heroSpawnPoint.transform.rotation);
+            gameFactory.CreateJoystick();
+            gameFactory.CreateFollowCamera().SetTarget(gameFactory.Hero.transform);
         }
     }
 }

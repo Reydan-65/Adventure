@@ -2081,10 +2081,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 256202156}
+  - component: {fileID: 256202158}
   - component: {fileID: 256202157}
   - component: {fileID: 256202155}
   m_Layer: 0
-  m_Name: LevelContext
+  m_Name: SceneContext
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2102,9 +2103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13631cf204eaa444697326fb537d0bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroPrefab: {fileID: 2751160580884724760, guid: bb6b5eb156fe054459de55c9c9a53a83, type: 3}
-  virtualJoystickPrefab: {fileID: 8136149980980512410, guid: dcd1cbafedfb7ff44a123b39cb905964, type: 3}
-  followCameraPrafab: {fileID: 1567840284024520506, guid: 19d91a39f663e9f46a976061cb8c90f3, type: 3}
+  heroSpawnPoint: {fileID: 280213937}
 --- !u!4 &256202156
 Transform:
   m_ObjectHideFlags: 0
@@ -2132,8 +2131,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dcabdc06bbf531468fc8ba1074b6e9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monoBootStrapper: {fileID: 256202155}
   heroSpawnPoint: {fileID: 280213937}
+--- !u!114 &256202158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256202154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25312aa06c1c46a4492f01a09f5e7e74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monoInstallers:
+  - {fileID: 256202157}
+  contextBootStrapper: {fileID: 256202155}
 --- !u!1001 &261295894
 PrefabInstance:
   m_ObjectHideFlags: 0

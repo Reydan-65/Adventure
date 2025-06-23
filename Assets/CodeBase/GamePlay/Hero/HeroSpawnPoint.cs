@@ -1,4 +1,4 @@
-using Assets.CodeBase.Infrastructure.ServiceLocator;
+using CodeBase.Infrastructure.DependencyInjection;
 using UnityEngine;
 
 namespace CodeBase.GamePlay.Hero

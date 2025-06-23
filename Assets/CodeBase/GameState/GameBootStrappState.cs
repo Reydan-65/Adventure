@@ -1,6 +1,5 @@
-using Assets.CodeBase.Infrastructure.ServiceLocator;
+using CodeBase.Infrastructure.DependencyInjection;
 using Assets.CodeBase.Infrastructure.Services.GameStateMachine;
-using Assets.CodeBase.Infrastructure.StateMachine;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure.Services.GameStates

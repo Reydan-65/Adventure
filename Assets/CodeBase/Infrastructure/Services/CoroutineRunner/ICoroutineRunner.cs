@@ -1,11 +1,11 @@
 ﻿using CodeBase.Infrastructure.DependencyInjection;
+using System.Collections;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure.Services
 {
-    public interface IInputService : IService
+    public interface ICoroutineRunner : IService
     {
-        bool Enable { get; set; }
-        Vector2 MovementAxis { get; }
+        Coroutine StartCoroutine(IEnumerator coroutine);
     }
 }
