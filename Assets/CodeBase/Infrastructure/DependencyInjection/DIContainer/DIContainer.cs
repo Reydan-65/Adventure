@@ -113,9 +113,14 @@ namespace CodeBase.Infrastructure.DependencyInjection
         {
             MonoBehaviour[] monoBehaviours = gameObject.GetComponents<MonoBehaviour>();
 
-            for (int i = 0; i < monoBehaviours.Length; i++)
+            foreach (MonoBehaviour behaviour in monoBehaviours)
             {
-                InjectToMonoBehaviour(monoBehaviours[i]);
+                InjectToMonoBehaviour(behaviour);
+            }
+
+            foreach (Transform child in gameObject.transform)
+            {
+                InjectToGameObject(child.gameObject);
             }
         }
 

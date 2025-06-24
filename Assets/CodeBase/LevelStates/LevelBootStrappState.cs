@@ -1,4 +1,5 @@
 using CodeBase.Infrastructure.DependencyInjection;
+using CodeBase.Infrastructure.Services.Factory;
 using CodeBase.GamePlay.Hero;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ namespace CodeBase.Infrastructure.Services.LevelStates
 
             gameFactory.CreateHero(heroSpawnPoint.transform.position, heroSpawnPoint.transform.rotation);
             gameFactory.CreateJoystick();
-            gameFactory.CreateFollowCamera().SetTarget(gameFactory.Hero.transform);
+            gameFactory.CreateFollowCamera().SetTarget(gameFactory.HeroObject.transform);
         }
     }
 }

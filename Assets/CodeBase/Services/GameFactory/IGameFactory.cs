@@ -1,13 +1,18 @@
+using CodeBase.GamePlay.Hero;
 using CodeBase.Infrastructure.DependencyInjection;
 using UnityEngine;
 
-public interface IGameFactory : IService
+namespace CodeBase.Infrastructure.Services.Factory
 {
-    GameObject CreateHero(Vector3 position, Quaternion rotation);
-    VirtualJoystick CreateJoystick();
-    FollowCamera CreateFollowCamera();
+    public interface IGameFactory : IService
+    {
+        GameObject CreateHero(Vector3 position, Quaternion rotation);
+        VirtualJoystick CreateJoystick();
+        FollowCamera CreateFollowCamera();
 
-    GameObject Hero {  get; }
-    VirtualJoystick VirtualJoystick { get; }
-    FollowCamera FollowCamera { get; }
+        GameObject HeroObject { get; }
+        HeroHealth HeroHealth { get; }
+        VirtualJoystick VirtualJoystick { get; }
+        FollowCamera FollowCamera { get; }
+    }
 }

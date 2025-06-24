@@ -1,3 +1,4 @@
+using CodeBase.GamePlay.Hero;
 using CodeBase.Infrastructure.AssetManagment;
 using CodeBase.Infrastructure.DependencyInjection;
 using UnityEngine;
@@ -9,9 +10,11 @@ namespace CodeBase.Infrastructure.Services.Factory
         private IAssetProvider assetProvider;
         private DIContainer container;
 
-        public GameObject Hero { get; private set; }
+        public GameObject HeroObject { get; private set; }
         public VirtualJoystick VirtualJoystick { get; private set; }
         public FollowCamera FollowCamera { get; private set; }
+
+        public HeroHealth HeroHealth { get; private set; }
 
         public GameFactory(IAssetProvider assetProvider, DIContainer container)
         {
@@ -21,10 +24,13 @@ namespace CodeBase.Infrastructure.Services.Factory
 
         public GameObject CreateHero(Vector3 position, Quaternion rotation)
         {
-            Hero = CreateGameObjectFromPrefab(AssetPath.HeroPath);
-            Hero.transform.position = position;
-            Hero.transform.rotation = rotation;
-            return Hero;
+            HeroObject = CreateGameObjectFromPrefab(AssetPath.HeroPath);
+            HeroObject.transform.position = position;
+            HeroObject.transform.rotation = rotation;
+
+            HeroHealth = HeroObject.GetComponent<HeroHealth>();
+
+            return HeroObject;
         }
 
         public VirtualJoystick CreateJoystick()
