@@ -1,9 +1,13 @@
-using UnityEngine;
+using CodeBase.Configs;
 
-namespace CodeBase.GamePlay.Enemy
+namespace CodeBase.GamePlay.Enemies
 {
-    public class EnemyHealth : Health
+    public class EnemyHealth : Health, IEnemyConfigInstaller
     {
-        
+        public void InstallEnemyConfig(EnemyConfig config)
+        {
+            current = config.MaxHitPoints;
+            max = config.MaxHitPoints;
+        }
     }
 }

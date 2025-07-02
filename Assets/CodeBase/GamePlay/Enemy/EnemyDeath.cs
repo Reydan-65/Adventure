@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CodeBase.GamePlay.Enemy
+namespace CodeBase.GamePlay.Enemies
 {
     public class EnemyDeath : MonoBehaviour
     {

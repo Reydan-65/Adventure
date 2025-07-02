@@ -1,8 +1,10 @@
+using CodeBase.Data;
+using CodeBase.Infrastructure.Services.PlayerProgressSaver;
 using UnityEngine;
 
 namespace CodeBase.GamePlay.Hero
 {
-    public class HeroHealth : Health
+    public class HeroHealth : Health, IProgressLoadHandler
     {
         [SerializeField] private float restoredHealthAmount;
         [SerializeField] private float restoreDelay;
@@ -32,6 +34,12 @@ namespace CodeBase.GamePlay.Hero
             }
 
             InvokeChangedEvent();
+        }
+
+        public void LoadProgress(PlayerProgress progress)
+        {
+            current = progress.HeroStats.MaxHitPoints;
+            max = progress.HeroStats.MaxHitPoints;
         }
     }
 }

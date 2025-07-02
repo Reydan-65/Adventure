@@ -661,6 +661,7 @@ GameObject:
   - component: {fileID: -5859663453411062179}
   - component: {fileID: -6094377712124404985}
   - component: {fileID: 8642072746342765741}
+  - component: {fileID: 4493650445885793566}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -806,7 +807,7 @@ MonoBehaviour:
   heroAnimator: {fileID: 8114282359483863248}
   cooldown: 3
   radius: 1
-  damage: 15
+  damage: 30
 --- !u!114 &8642072746342765741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,6 +821,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: -5859663453411062179}
+--- !u!114 &4493650445885793566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2751160580884724760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2344592d02f8acf4fb95b74ff429f051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2904964711219369639
 GameObject:
   m_ObjectHideFlags: 0

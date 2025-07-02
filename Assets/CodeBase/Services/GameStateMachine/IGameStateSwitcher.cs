@@ -1,7 +1,7 @@
 ﻿using CodeBase.Infrastructure.DependencyInjection;
-using Assets.CodeBase.Infrastructure.StateMachine;
+using CodeBase.Infrastructure.StateMachine;
 
-namespace Assets.CodeBase.Infrastructure.Services.GameStateMachine
+namespace CodeBase.Infrastructure.Services.GameStateMachine
 {
     public interface IGameStateSwitcher : IService
     {

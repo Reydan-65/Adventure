@@ -1,6 +1,6 @@
 using CodeBase.Infrastructure.Services.GameStates;
 using CodeBase.Infrastructure.DependencyInjection;
-using Assets.CodeBase.Infrastructure.Services.GameStateMachine;
+using CodeBase.Infrastructure.Services.GameStateMachine;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure
@@ -8,17 +8,20 @@ namespace CodeBase.Infrastructure
     public class GameBootStrapper : MonoBootStrapper
     {
         private IGameStateSwitcher gameStateSwitcher;
-        private GameBootStrappState gameBootStrappState;
+        private GameBootStrapState gameBootStrappState;
         private LoadNextLevelState loadNextLevelState;
+        private LoadMainMenuState loadMainMenuState;
 
         [Inject]
         public void Construct(IGameStateSwitcher gameStateSwitcher, 
-                              GameBootStrappState gameBootStrappState, 
-                              LoadNextLevelState loadNextLevelState)
+                              GameBootStrapState gameBootStrappState, 
+                              LoadNextLevelState loadNextLevelState,
+                              LoadMainMenuState loadMainMenuState)
         {
             this.gameStateSwitcher = gameStateSwitcher;
             this.gameBootStrappState = gameBootStrappState;
             this.loadNextLevelState = loadNextLevelState;
+            this.loadMainMenuState = loadMainMenuState;
         }
 
         public override void OnBindResolved()
@@ -32,8 +35,9 @@ namespace CodeBase.Infrastructure
         {
             gameStateSwitcher.AddState(gameBootStrappState);
             gameStateSwitcher.AddState(loadNextLevelState);
+            gameStateSwitcher.AddState(loadMainMenuState);
 
-            gameStateSwitcher.Enter<GameBootStrappState>();
+            gameStateSwitcher.Enter<GameBootStrapState>();
         }
     }
 }

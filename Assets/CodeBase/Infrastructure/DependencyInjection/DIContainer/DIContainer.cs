@@ -1,3 +1,4 @@
+using Codice.CM.SEIDInfo;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -65,6 +66,11 @@ namespace CodeBase.Infrastructure.DependencyInjection
             return Activator.CreateInstance(type, parameters);
         }
 
+        public TType CreateAndInject<TType>()
+        {
+           return (TType) CreateImplementation(typeof(TType));
+        }
+
         #endregion
 
         #region MonoInject
@@ -111,16 +117,11 @@ namespace CodeBase.Infrastructure.DependencyInjection
 
         public void InjectToGameObject(GameObject gameObject)
         {
-            MonoBehaviour[] monoBehaviours = gameObject.GetComponents<MonoBehaviour>();
+            MonoBehaviour[] monoBehaviours = gameObject.GetComponentsInChildren<MonoBehaviour>();
 
             foreach (MonoBehaviour behaviour in monoBehaviours)
             {
                 InjectToMonoBehaviour(behaviour);
-            }
-
-            foreach (Transform child in gameObject.transform)
-            {
-                InjectToGameObject(child.gameObject);
             }
         }
 

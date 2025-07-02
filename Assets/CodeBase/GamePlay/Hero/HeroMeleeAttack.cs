@@ -1,9 +1,11 @@
+using CodeBase.Data;
+using CodeBase.Infrastructure.Services.PlayerProgressSaver;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace CodeBase.GamePlay.Hero
 {
-    public class HeroMeleeAttack : MonoBehaviour
+    public class HeroMeleeAttack : MonoBehaviour, IProgressLoadHandler
     {
         [SerializeField] private HeroMovement heroMovement;
         [SerializeField] private HeroAnimator heroAnimator;
@@ -77,12 +79,19 @@ namespace CodeBase.GamePlay.Hero
             heroAnimator.Attack();
         }
 
+        public void LoadProgress(PlayerProgress progress)
+        {
+            damage = progress.HeroStats.Damage;
+        }
+
 #if UNITY_EDITOR
 
         private void OnDrawGizmosSelected()
         {
+            float offset = GetComponent<CharacterController>().height / 2;
+
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, radius);
+            Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), radius);
         }
 
 #endif

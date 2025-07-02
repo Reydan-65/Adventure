@@ -1,11 +1,12 @@
+using CodeBase.Configs;
 using CodeBase.Infrastructure.DependencyInjection;
 using CodeBase.Infrastructure.Services.Factory;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace CodeBase.GamePlay.Enemy
+namespace CodeBase.GamePlay.Enemies
 {
-    public class EnemyFollowToHero : MonoBehaviour
+    public class EnemyFollowToHero : MonoBehaviour, IEnemyConfigInstaller
     {
         [SerializeField] private float movementSpeed;
         [SerializeField] private float stopDistance;
@@ -19,10 +20,17 @@ namespace CodeBase.GamePlay.Enemy
             this.gameFactory = gameFactory;
         }
 
+        public void InstallEnemyConfig(EnemyConfig config)
+        {
+            movementSpeed = config.MovementSpeed;
+            stopDistance = config.StopDistance;
+        }
+
         private void Start()
         {
             agent.speed = movementSpeed;
             agent.stoppingDistance = stopDistance;
+            agent.Warp(transform.position);
         }
 
         private void Update()

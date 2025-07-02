@@ -11,6 +11,8 @@ namespace CodeBase.Infrastructure.Services
 
         private Vector2 GetMovementAxis()
         {
+            if (enable == false) return Vector2.zero;
+
             if (VirtualJoystick.Value != Vector2.zero)
                 return VirtualJoystick.Value;
 

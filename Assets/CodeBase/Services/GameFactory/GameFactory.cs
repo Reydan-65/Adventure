@@ -1,6 +1,11 @@
+using CodeBase.Configs;
+using CodeBase.GamePlay.Enemies;
 using CodeBase.GamePlay.Hero;
 using CodeBase.Infrastructure.AssetManagment;
 using CodeBase.Infrastructure.DependencyInjection;
+using CodeBase.Infrastructure.Services.ConfigProvider;
+using CodeBase.Infrastructure.Services.PlayerProgressSaver;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure.Services.Factory
@@ -9,18 +14,24 @@ namespace CodeBase.Infrastructure.Services.Factory
     {
         private IAssetProvider assetProvider;
         private DIContainer container;
+        private IProgressSaver progressSaver;
+        private IConfigsProvider configProvider;
+
+        public GameFactory(IAssetProvider assetProvider, DIContainer container, IProgressSaver progressSaver, IConfigsProvider configProvider)
+        {
+            this.assetProvider = assetProvider;
+            this.container = container;
+            this.progressSaver = progressSaver;
+            this.configProvider = configProvider;
+        }
 
         public GameObject HeroObject { get; private set; }
         public VirtualJoystick VirtualJoystick { get; private set; }
         public FollowCamera FollowCamera { get; private set; }
 
         public HeroHealth HeroHealth { get; private set; }
-
-        public GameFactory(IAssetProvider assetProvider, DIContainer container)
-        {
-            this.assetProvider = assetProvider;
-            this.container = container;
-        }
+        public HeroInventory HeroInventory { get; private set; }
+        public List<GameObject> EnemiesObject { get; private set; } = new List<GameObject>();
 
         public GameObject CreateHero(Vector3 position, Quaternion rotation)
         {
@@ -29,6 +40,9 @@ namespace CodeBase.Infrastructure.Services.Factory
             HeroObject.transform.rotation = rotation;
 
             HeroHealth = HeroObject.GetComponent<HeroHealth>();
+            HeroInventory = HeroInventory.Create(HeroObject.transform);
+
+            progressSaver.AddObject(HeroObject);
 
             return HeroObject;
         }
@@ -56,6 +70,27 @@ namespace CodeBase.Infrastructure.Services.Factory
             GameObject prefab = assetProvider.GetPrefab<GameObject>(prefabPath);
             GameObject obj = container.Instantiate(prefab);
             return obj.GetComponent<T>();
+        }
+
+        public GameObject CreateEnemy(EnemyID id, Vector3 position)
+        {
+            EnemyConfig enemyConfig = configProvider.GetEnemyConfig(id);
+
+            GameObject enemyPrefab = enemyConfig.Prefab;
+            GameObject enemy = container.Instantiate(enemyPrefab);
+
+            enemy.transform.position = position;
+
+            IEnemyConfigInstaller[] enemyConfigInstallers = enemy.GetComponentsInChildren<IEnemyConfigInstaller>();
+
+            for (int i = 0; i < enemyConfigInstallers.Length; i++)
+            {
+                enemyConfigInstallers[i].InstallEnemyConfig(enemyConfig);
+            }
+
+            EnemiesObject.Add(enemy);
+
+            return enemy;
         }
     }
 }

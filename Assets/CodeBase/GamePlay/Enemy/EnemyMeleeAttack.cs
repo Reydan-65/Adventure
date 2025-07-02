@@ -1,18 +1,19 @@
 using CodeBase.GamePlay.Hero;
 using CodeBase.Infrastructure.DependencyInjection;
 using CodeBase.Infrastructure.Services.Factory;
+using CodeBase.Configs;
 using UnityEngine.AI;
 using UnityEngine;
 
-namespace CodeBase.GamePlay.Enemy
+namespace CodeBase.GamePlay.Enemies
 {
-    public class EnemyMeleeAttack : MonoBehaviour
+    public class EnemyMeleeAttack : MonoBehaviour, IEnemyConfigInstaller
     {
         [SerializeField] private NavMeshAgent agent;
         [SerializeField] private EnemyAnimator animator;
         [SerializeField] private float cooldown;
         [SerializeField] private float radius;
-        [SerializeField] private int damage;
+        [SerializeField] private float damage;
 
         private IGameFactory gameFactory;
         private HeroHealth target;
@@ -23,6 +24,13 @@ namespace CodeBase.GamePlay.Enemy
         public void Construct(IGameFactory gameFactory)
         {
             this.gameFactory = gameFactory;
+        }
+
+        public void InstallEnemyConfig(EnemyConfig config)
+        {
+            cooldown = config.AttackCooldown;
+            radius = config.AttackRadius;
+            damage = config.Damage;
         }
 
         private void Start()
@@ -66,8 +74,10 @@ namespace CodeBase.GamePlay.Enemy
 
         private void OnDrawGizmosSelected()
         {
+            float offset = GetComponent<CapsuleCollider>().height / 2;
+
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, radius);
+            Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), radius);
         }
 
 #endif

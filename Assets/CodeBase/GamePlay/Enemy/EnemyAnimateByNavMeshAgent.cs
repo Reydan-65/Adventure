@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace CodeBase.GamePlay.Enemy
+namespace CodeBase.GamePlay.Enemies
 {
     public class EnemyAnimateByNavMeshAgent : MonoBehaviour
     {
