@@ -20,9 +20,25 @@ namespace CodeBase.Data
                 CoinValueChanged?.Invoke(coinAmount);
             }
         }
+
         public static HeroInventoryData Default()
         {
             return new HeroInventoryData { CoinAmount = 0 };
+        }
+
+        public void AddCoin(int coinAmount)
+        {
+            this.coinAmount += coinAmount;
+            CoinValueChanged?.Invoke(coinAmount);
+        }
+
+        public bool SpendCoins(int coinAmount)
+        {
+            if (this.coinAmount < 0 || this.coinAmount < coinAmount)
+                return false;
+
+            this.coinAmount -= coinAmount;
+            return true;
         }
     }
 }

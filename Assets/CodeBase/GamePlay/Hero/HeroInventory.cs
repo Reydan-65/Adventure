@@ -8,40 +8,25 @@ namespace CodeBase.GamePlay.Hero
     public class HeroInventory : MonoBehaviour, IProgressBeforeSaveHandler, IProgressLoadHandler
     {
         #region Coins
-        [SerializeField] private HeroInventoryData _inventoryData = new HeroInventoryData();
+        [SerializeField] private HeroInventoryData inventoryData = new HeroInventoryData();
 
         public event UnityAction<int> OnCoinAmountChanged;
 
         public int CoinAmount
         {
-            get => _inventoryData.CoinAmount;
+            get => inventoryData.CoinAmount;
             private set
             {
-                _inventoryData.CoinAmount = value;
-                OnCoinAmountChanged?.Invoke(_inventoryData.CoinAmount);
+                inventoryData.CoinAmount = value;
+                OnCoinAmountChanged?.Invoke(inventoryData.CoinAmount);
             }
-        }
-
-        public void AddCoins(int amount)
-        {
-            if (amount < 0) return;
-            CoinAmount += amount;
-        }
-
-        public bool SpendCoins(int amount)
-        {
-            if (amount < 0 || CoinAmount < amount)
-                return false;
-
-            CoinAmount -= amount;
-            return true;
         }
 
         public void LoadProgress(PlayerProgress progress)
         {
             if (progress?.HeroInventoryData == null) return;
 
-            _inventoryData = progress.HeroInventoryData;
+            inventoryData = progress.HeroInventoryData;
             OnCoinAmountChanged?.Invoke(CoinAmount);
         }
 
@@ -59,7 +44,7 @@ namespace CodeBase.GamePlay.Hero
                 go.transform.SetParent(parent);
 
             var inventory = go.AddComponent<HeroInventory>();
-            inventory._inventoryData = HeroInventoryData.Default();
+            inventory.inventoryData = HeroInventoryData.Default();
             return inventory;
         }
 

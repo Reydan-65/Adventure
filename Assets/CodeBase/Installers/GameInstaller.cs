@@ -49,6 +49,7 @@ namespace CodeBase.Infrastructure
 
             container.RegisterSingle<IUIFactory, UIFactory>();
             container.RegisterSingle<IWindowsProvider, WindowsProvider>();
+            container.RegisterSingle<IAdsService, AdsService>();
         }
     }
 }

@@ -15,17 +15,20 @@ namespace CodeBase.Infrastructure.Services.GameStates
         private IProgressSaver progressSaver;
         private IConfigsProvider configProvider;
         private IUIFactory uiFactory;
+        private IAdsService adsService;
 
         public GameBootStrapState(
             IGameStateSwitcher gameStateSwitcher,
             IProgressSaver progressSaver,
             IConfigsProvider configProvider,
-            IUIFactory uiFactory)
+            IUIFactory uiFactory,
+            IAdsService adsService)
         {
             this.gameStateSwitcher = gameStateSwitcher;
             this.progressSaver = progressSaver;
             this.configProvider = configProvider;
             this.uiFactory = uiFactory;
+            this.adsService = adsService;
         }
 
         public void Enter()
@@ -33,6 +36,10 @@ namespace CodeBase.Infrastructure.Services.GameStates
             uiFactory.WarmUp();
 
             configProvider.Load();
+
+            adsService.Initialize();
+            adsService.LoadInterstitial();
+            adsService.LoadRewarded();
 
             progressSaver.LoadProgress();
 

@@ -8,7 +8,7 @@ namespace CodeBase.GamePlay.Interactive
 
         protected override void OnPickup()
         {
-            progressProvider.PlayerProgress.HeroInventoryData.CoinAmount += coinCount;
+            progressProvider.PlayerProgress.HeroInventoryData.AddCoin(coinCount);
         }
     }
 }

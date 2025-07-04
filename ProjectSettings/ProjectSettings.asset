@@ -743,7 +743,8 @@ PlayerSettings:
   webGLMemoryGeometricGrowthStep: 0.2
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Standalone: LEVELPLAY_DEPENDENCIES_INSTALLED
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
@@ -852,10 +853,10 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 748704df-e46c-4f53-bd73-1d20b89404cc
+  cloudProjectId: 6a969eb2-0c12-4e57-9a99-12063c04b495
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Adventure_project
+  projectName: Adventure 2025-07-04_20-32-47
   organizationId: fadand85
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

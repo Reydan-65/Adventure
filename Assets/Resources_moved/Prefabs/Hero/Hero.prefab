@@ -777,7 +777,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   max: 100
   current: 50
-  restoredHealthAmount: 0.001
+  restoredHealthAmount: 0.002
   restoreDelay: 1
 --- !u!114 &-6094377712124404985
 MonoBehaviour:
@@ -821,7 +821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2344592d02f8acf4fb95b74ff429f051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventoryData:
+  inventoryData:
     coinAmount: 0
 --- !u!1 &2904964711219369639
 GameObject:
