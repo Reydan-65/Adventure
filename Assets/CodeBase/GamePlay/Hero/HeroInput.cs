@@ -18,6 +18,9 @@ namespace CodeBase.GamePlay.Hero
 
         private void Update()
         {
+            if (heroMovement == null) return;
+            if (inputService == null) return;
+
             heroMovement.SetMevementDirection(inputService.MovementAxis);
         }
     }

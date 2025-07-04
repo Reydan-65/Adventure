@@ -13,5 +13,10 @@ MonoBehaviour:
   m_Name: Victory
   m_EditorClassIdentifier: 
   WindowID: 2
-  Title: VictoryWindow
-  Prefab: {fileID: 5553975237588971416, guid: 72e8f389cfbd9c44ea664c360952f805, type: 3}
+  Title: Victory
+  PrefabReference:
+    m_AssetGUID: 72e8f389cfbd9c44ea664c360952f805
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0

@@ -17,11 +17,11 @@ namespace CodeBase.Infrastructure.Services.LevelStates
         private IProgressSaver progressSaver;
         private IConfigsProvider configProvider;
 
-        private int enemyAmount;
-        public int EnemyAmount => enemyAmount;
-
-        public LevelBootStrapState(IGameFactory gameFactory, ILevelStateSwitcher levelStateSwitcher,
-            IInputService inputService, IProgressSaver progressSaver,
+        public LevelBootStrapState(
+            IGameFactory gameFactory,
+            ILevelStateSwitcher levelStateSwitcher,
+            IInputService inputService,
+            IProgressSaver progressSaver,
             IConfigsProvider configProvider)
         {
             this.gameFactory = gameFactory;
@@ -31,18 +31,16 @@ namespace CodeBase.Infrastructure.Services.LevelStates
             this.configProvider = configProvider;
         }
 
-        public void Enter()
+        public async void Enter()
         {
             Debug.Log("LEVEL: Init");
 
-            string sceneName = SceneManager.GetActiveScene().name;
-            LevelConfig levelConfig = configProvider.GetLevelConfig(sceneName);
-
             progressSaver.ClearObjects();
 
-            inputService.Enable = true;
+            await gameFactory.WarmUp();
 
-            gameFactory.EnemiesObject.Clear();
+            string sceneName = SceneManager.GetActiveScene().name;
+            LevelConfig levelConfig = configProvider.GetLevelConfig(sceneName);
 
             // Временно
             EnemySpawner[] enemySpawners = GameObject.FindObjectsByType<EnemySpawner>(0);
@@ -50,14 +48,18 @@ namespace CodeBase.Infrastructure.Services.LevelStates
             for (int i = 0; i < enemySpawners.Length; i++)
             {
                 enemySpawners[i].Spawn();
-                enemyAmount++;
             }
 
-            gameFactory.CreateHero(levelConfig.HeroSpawnPoint, Quaternion.identity);
-            gameFactory.CreateJoystick();
-            gameFactory.CreateFollowCamera().SetTarget(gameFactory.HeroObject.transform);
+            await gameFactory.CreateHeroAsync(levelConfig.HeroSpawnPoint, Quaternion.identity);
+            
+            FollowCamera followCamera = await gameFactory.CreateFollowCameraAsync();
+            followCamera.SetTarget(gameFactory.HeroObject.transform);
+            
+            await gameFactory.CreateJoystickAsync();
 
             progressSaver.LoadProgress();
+
+            inputService.Enable = true;
 
             levelStateSwitcher.Enter<LevelResearchState>();
         }

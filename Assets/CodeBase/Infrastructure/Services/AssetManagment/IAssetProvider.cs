@@ -1,5 +1,7 @@
 ﻿using CodeBase.Infrastructure.DependencyInjection;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace CodeBase.Infrastructure.AssetManagment
 {
@@ -7,5 +9,7 @@ namespace CodeBase.Infrastructure.AssetManagment
     {
         T GetPrefab<T>(string prefabPath) where T : Object;
         T Instantiate<T>(string prefabPath) where T : Object;
+        Task<TType> Load<TType>(AssetReference assetReference) where TType : class;
+        void CleanUp();
     }
 }

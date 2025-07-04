@@ -10,6 +10,23 @@ namespace CodeBase.GamePlay.Hero
         [SerializeField] private float restoreDelay;
 
         private float restoreTimer;
+        bool isInitialized;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            if (!isInitialized)
+                Initialize(max);
+        }
+
+        private void Initialize(float max)
+        {
+            this.max = max;
+            current = max;
+            isInitialized = true;
+            InvokeChangedEvent();
+        }
 
         private void Update()
         {

@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9efa66fb95f974245b659c3bdaa28338, type: 3}
   m_Name: Boxer
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 7446447108624254261, guid: f470e8f304d967f4d914fbaedca0a8e4, type: 3}
+  PrefabReference:
+    m_AssetGUID: f470e8f304d967f4d914fbaedca0a8e4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   EnemyID: 0
   MaxHitPoints: 50
   MovementSpeed: 4

@@ -19,11 +19,14 @@ namespace CodeBase.GamePlay.Enemies
         private HeroHealth target;
 
         private float timer;
+        private float findTargetTimer;
+        private bool isInitialized = false;
 
         [Inject]
         public void Construct(IGameFactory gameFactory)
         {
             this.gameFactory = gameFactory;
+            InitializeTarget();
         }
 
         public void InstallEnemyConfig(EnemyConfig config)
@@ -33,21 +36,53 @@ namespace CodeBase.GamePlay.Enemies
             damage = config.Damage;
         }
 
-        private void Start()
+        private void InitializeTarget()
         {
-            target = gameFactory.HeroHealth;
+            if (gameFactory == null) return;
+
+            if (gameFactory.HeroHealth == null)
+                gameFactory.HeroCreated += OnHeroCreated;
+            else
+                SetTarget(gameFactory.HeroHealth);
+        }
+        private void OnHeroCreated()
+        {
+            if (gameFactory != null && gameFactory.HeroHealth != null)
+            {
+                SetTarget(gameFactory.HeroHealth);
+                gameFactory.HeroCreated -= OnHeroCreated;
+            }
         }
 
         private void Update()
         {
+            if (!isInitialized || target == null)
+            {
+                findTargetTimer += Time.deltaTime;
+
+                if (findTargetTimer == 1 && gameFactory != null)
+                {
+                    SetTarget(gameFactory.HeroHealth);
+                    findTargetTimer = 0;
+                }
+
+                return;
+            }
+
             if (target == null) return;
 
             timer += Time.deltaTime;
 
             if (CanAttack() == true && target.Current > 0)
-            {
                 StartAttack();
-            }
+        }
+
+        private void SetTarget(HeroHealth heroHealth)
+        {
+            if (heroHealth == null) return;
+
+            target = heroHealth;
+            isInitialized = true;
         }
 
         private void AnimationEventOnHit()

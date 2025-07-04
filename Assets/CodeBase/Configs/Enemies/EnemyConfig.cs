@@ -1,5 +1,6 @@
 ﻿using CodeBase.GamePlay.Enemies;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace CodeBase.Configs
 {
@@ -7,7 +8,7 @@ namespace CodeBase.Configs
     public class EnemyConfig : ScriptableObject
     {
         [Header("Prefab")]
-        public GameObject Prefab;
+        public AssetReferenceGameObject PrefabReference;
 
         [Header("Identificator")]
         public EnemyID EnemyID;

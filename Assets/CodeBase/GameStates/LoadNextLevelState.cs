@@ -12,7 +12,10 @@ namespace CodeBase.Infrastructure.Services.GameStates
         private IProgressProvider progressProvider;
         private IConfigsProvider configProvider;
 
-        public LoadNextLevelState(ISceneLoader sceneLoader, IProgressProvider progressProvider, IConfigsProvider configProvider)
+        public LoadNextLevelState(
+            ISceneLoader sceneLoader,
+            IProgressProvider progressProvider,
+            IConfigsProvider configProvider)
         {
             this.sceneLoader = sceneLoader;
             this.progressProvider = progressProvider;

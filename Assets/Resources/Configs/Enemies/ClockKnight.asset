@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9efa66fb95f974245b659c3bdaa28338, type: 3}
   m_Name: ClockKnight
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 7446447108624254261, guid: fbba971b3e919a7468f69234a590d25b, type: 3}
+  PrefabReference:
+    m_AssetGUID: fbba971b3e919a7468f69234a590d25b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   EnemyID: 1
   MaxHitPoints: 200
   MovementSpeed: 2.5

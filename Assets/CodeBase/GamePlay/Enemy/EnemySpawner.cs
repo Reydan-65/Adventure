@@ -18,7 +18,7 @@ namespace CodeBase.GamePlay.Enemies
 
         public void Spawn()
         {
-            gameFactory.CreateEnemy(enemyID, transform.position);
+            gameFactory.CreateEnemyAsync(enemyID, transform.position);
         }
 
 #if UNITY_EDITOR

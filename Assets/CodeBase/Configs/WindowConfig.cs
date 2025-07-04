@@ -1,5 +1,6 @@
 ﻿using CodeBase.GamePlay.UI;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace CodeBase.Configs
 {
@@ -8,6 +9,6 @@ namespace CodeBase.Configs
     {
         public WindowID WindowID;
         public string Title;
-        public GameObject Prefab;
+        public AssetReferenceGameObject PrefabReference;
     }
 }

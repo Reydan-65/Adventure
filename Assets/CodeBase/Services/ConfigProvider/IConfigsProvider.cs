@@ -12,6 +12,7 @@ namespace CodeBase.Infrastructure.Services.ConfigProvider
         void Load();
 
         EnemyConfig GetEnemyConfig(EnemyID enemyID);
+        EnemyConfig[] GetAllEnemiesConfigs();
         LevelConfig GetLevelConfig(int index);
         LevelConfig GetLevelConfig(string name);
         WindowConfig GetWindowConfig(WindowID id);

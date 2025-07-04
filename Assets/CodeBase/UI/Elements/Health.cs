@@ -14,6 +14,8 @@ namespace CodeBase.GamePlay
         public float Max => max;
         public float Current => current;
 
+        protected virtual void Awake() { }
+
         public void ApplyDamage(float damage)
         {
             if (current == 0 || damage == 0) return;

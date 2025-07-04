@@ -2,7 +2,7 @@ using CodeBase.Infrastructure.Services.ConfigProvider;
 using CodeBase.Infrastructure.Services.GameStateMachine;
 using CodeBase.Infrastructure.Services.GameStates;
 using CodeBase.Infrastructure.Services.PlayerProgressProvider;
-using System;
+using UnityEngine;
 
 namespace CodeBase.GamePlay.UI
 {
@@ -35,18 +35,28 @@ namespace CodeBase.GamePlay.UI
                 window.SetLevelIndex(currentLevelIndex);
 
             window.PlayButtonClicked += OnPlayButtonClicked;
+            window.ResetButtonClicked += OnResetButtonClicked;
             window.CleanUped += OnCleanUped;
         }
 
         private void OnCleanUped()
         {
             window.PlayButtonClicked -= OnPlayButtonClicked;
+            window.ResetButtonClicked -= OnResetButtonClicked;
             window.CleanUped -= OnCleanUped;
         }
 
         private void OnPlayButtonClicked()
         {
             gameStateSwitcher.Enter<LoadNextLevelState>();
+        }
+
+        private void OnResetButtonClicked()
+        {
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
+
+            gameStateSwitcher.Enter<GameBootStrapState>();
         }
     }
 }

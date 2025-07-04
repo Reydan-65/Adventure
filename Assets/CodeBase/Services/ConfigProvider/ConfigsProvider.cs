@@ -48,5 +48,10 @@ namespace CodeBase.Infrastructure.Services.ConfigProvider
         {
             return windows[id];
         }
+
+        public EnemyConfig[] GetAllEnemiesConfigs()
+        {
+            return enemies.Values.ToArray();
+        }
     }
 }

@@ -1,5 +1,8 @@
 using CodeBase.Configs;
+using CodeBase.Infrastructure.AssetManagment;
 using CodeBase.Infrastructure.DependencyInjection;
+using CodeBase.Infrastructure.Services.ConfigProvider;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace CodeBase.GamePlay.UI.Services
@@ -9,21 +12,36 @@ namespace CodeBase.GamePlay.UI.Services
         private const string UIRootGameObjectName = "UIRoot";
 
         private DIContainer container;
-        public UIFactory(DIContainer container)
+        private IAssetProvider assetProvider;
+        private IConfigsProvider configProvider;
+
+        public UIFactory(
+            DIContainer container,
+            IAssetProvider assetProvider,
+            IConfigsProvider configProvider)
         {
             this.container = container;
+            this.assetProvider = assetProvider;
+            this.configProvider = configProvider;
         }
 
         public Transform UIRoot { get; set; }
 
-        public LevelResultPresenter CreateLevelResultWindow(WindowConfig config)
+        public async Task WarmUp()
         {
-            return CreateWindow<LevelResultWindow, LevelResultPresenter>(config);
+            await assetProvider.Load<GameObject>(configProvider.GetWindowConfig(WindowID.MainMenuWindow).PrefabReference);
+            await assetProvider.Load<GameObject>(configProvider.GetWindowConfig(WindowID.VictoryWindow).PrefabReference);
+            await assetProvider.Load<GameObject>(configProvider.GetWindowConfig(WindowID.LoseWindow).PrefabReference);
         }
 
-        public MainMenuPresenter CreateMainMenuWindow(WindowConfig config)
+        public async Task<LevelResultPresenter> CreateLevelResultWindow(WindowConfig config)
         {
-            return CreateWindow<MainMenuWindow, MainMenuPresenter>(config);
+            return await CreateWindowAsync<LevelResultWindow, LevelResultPresenter>(config);
+        }
+
+        public async Task<MainMenuPresenter> CreateMainMenuWindow(WindowConfig config)
+        {
+            return await CreateWindowAsync<MainMenuWindow, MainMenuPresenter>(config);
         }
 
         public void CreateUIRoot()
@@ -31,11 +49,13 @@ namespace CodeBase.GamePlay.UI.Services
             UIRoot = new GameObject(UIRootGameObjectName).transform;
         }
 
-        private TPresenter CreateWindow<TWindow, TPresenter>(WindowConfig config)
+        private async Task<TPresenter> CreateWindowAsync<TWindow, TPresenter>(WindowConfig config)
             where TWindow : WindowBase
             where TPresenter : WindowPresenterBase<TWindow>
         {
-            TWindow window = container.Instantiate(config.Prefab).GetComponent<TWindow>();
+            GameObject prefab = await assetProvider.Load<GameObject>(config.PrefabReference);
+
+            TWindow window = container.Instantiate(prefab).GetComponent<TWindow>();
             window.transform.SetParent(UIRoot);
             window.SetTitle(config.Title);
 
