@@ -1,7 +1,6 @@
 using CodeBase.Infrastructure.Services.GameStates;
 using CodeBase.Infrastructure.DependencyInjection;
 using CodeBase.Infrastructure.Services.GameStateMachine;
-using UnityEngine;
 
 namespace CodeBase.Infrastructure
 {
@@ -13,10 +12,11 @@ namespace CodeBase.Infrastructure
         private LoadMainMenuState loadMainMenuState;
 
         [Inject]
-        public void Construct(IGameStateSwitcher gameStateSwitcher, 
-                              GameBootStrapState gameBootStrappState, 
-                              LoadNextLevelState loadNextLevelState,
-                              LoadMainMenuState loadMainMenuState)
+        public void Construct(
+            IGameStateSwitcher gameStateSwitcher, 
+            GameBootStrapState gameBootStrappState, 
+            LoadNextLevelState loadNextLevelState,
+            LoadMainMenuState loadMainMenuState)
         {
             this.gameStateSwitcher = gameStateSwitcher;
             this.gameBootStrappState = gameBootStrappState;
@@ -26,7 +26,7 @@ namespace CodeBase.Infrastructure
 
         public override void OnBindResolved()
         {
-            Debug.Log("GLOBAL: Init");
+            //UnityEngine.Debug.Log("GLOBAL: Init");
 
             InitGameStateMachine();
         }

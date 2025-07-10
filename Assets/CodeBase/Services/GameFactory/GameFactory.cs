@@ -1,6 +1,8 @@
 using CodeBase.Configs;
+using CodeBase.Data;
 using CodeBase.GamePlay.Enemies;
 using CodeBase.GamePlay.Hero;
+using CodeBase.GamePlay.Interactive;
 using CodeBase.Infrastructure.AssetManagment;
 using CodeBase.Infrastructure.DependencyInjection;
 using CodeBase.Infrastructure.Services.ConfigProvider;
@@ -17,15 +19,19 @@ namespace CodeBase.Infrastructure.Services.Factory
     {
         public event UnityAction HeroCreated;
 
-        private IAssetProvider assetProvider;
         private DIContainer container;
+        private IAssetProvider assetProvider;
         private IProgressSaver progressSaver;
         private IConfigsProvider configProvider;
 
-        public GameFactory(IAssetProvider assetProvider, DIContainer container, IProgressSaver progressSaver, IConfigsProvider configProvider)
+        public GameFactory(
+            DIContainer container,
+            IAssetProvider assetProvider,
+            IProgressSaver progressSaver,
+            IConfigsProvider configProvider)
         {
-            this.assetProvider = assetProvider;
             this.container = container;
+            this.assetProvider = assetProvider;
             this.progressSaver = progressSaver;
             this.configProvider = configProvider;
         }
@@ -37,6 +43,7 @@ namespace CodeBase.Infrastructure.Services.Factory
         public HeroHealth HeroHealth { get; private set; }
         public HeroInventory HeroInventory { get; private set; }
         public List<GameObject> EnemiesObject { get; private set; } = new List<GameObject>();
+        public GameObject LootObject { get; private set; }
 
         public async Task WarmUp()
         {
@@ -46,15 +53,41 @@ namespace CodeBase.Infrastructure.Services.Factory
                 await assetProvider.Load<GameObject>(enemyConfigs[i].PrefabReference);
         }
 
+        public async Task<GameObject> InstantiateAndInject(string address)
+        {
+            GameObject newGameObject = await Addressables.InstantiateAsync(address).Task;
+            container.InjectToGameObject(newGameObject);
+            return newGameObject;
+        }
+
+        #region Create Hero
+        private string GetHeroPathBasedOnSelectedSkin()
+        {
+            var progress = progressSaver.GetProgress();
+            bool useFemaleSkin = progress.HeroSkinID == HeroSkinID.Female &&
+                              progress.PurchaseData.IsFemaleSkinUnlocked;
+
+            return useFemaleSkin ? AssetAddress.HeroFemalePath : AssetAddress.HeroMalePath;
+        }
+
         public async Task<GameObject> CreateHeroAsync(Vector3 position, Quaternion rotation)
         {
-            HeroObject = await InstantiateAndInject(AssetAddress.HeroPath);
+            string heroPath = GetHeroPathBasedOnSelectedSkin();
+
+            HeroObject = await InstantiateAndInject(heroPath);
 
             HeroObject.transform.position = position;
             HeroObject.transform.rotation = rotation;
 
             HeroHealth = HeroObject.GetComponent<HeroHealth>();
-            HeroInventory = HeroInventory.Create(HeroObject.transform);
+
+            var progress = progressSaver.GetProgress();
+
+            HeroHealth.Initialize(progress.HeroStats.MaxHitPoints);
+
+            HeroInventoryData inventoryData = progress.HeroInventoryData;
+            HeroInventory = HeroObject.GetComponent<HeroInventory>();
+            HeroInventory.SyncWithData(inventoryData);
 
             progressSaver.AddObject(HeroObject);
 
@@ -62,7 +95,9 @@ namespace CodeBase.Infrastructure.Services.Factory
 
             return HeroObject;
         }
+        #endregion
 
+        #region Create Miscellaneous
         public async Task<VirtualJoystick> CreateJoystickAsync()
         {
             GameObject joystickObject = await InstantiateAndInject(AssetAddress.VirtualJoystickPath);
@@ -76,27 +111,44 @@ namespace CodeBase.Infrastructure.Services.Factory
             FollowCamera = followCameraObject.GetComponent<FollowCamera>();
             return FollowCamera;
         }
+        #endregion
 
-        public async Task<GameObject> InstantiateAndInject(string address)
+        #region Create Loot Item
+        public async Task<GameObject> CreateLootItemFromPrefab(LootItemID id)
         {
-            GameObject newGameObject = await Addressables.InstantiateAsync(address).Task;
-            container.InjectToGameObject(newGameObject);
-            return newGameObject;
+            string path = id switch
+            {
+                LootItemID.Coin => AssetAddress.CoinLootPath,
+                LootItemID.Key => AssetAddress.KeyLootPath,
+                LootItemID.HealingPotion => AssetAddress.HealingPotionLootPath,
+                LootItemID.None => null,
+                _ => null
+            };
+
+            GameObject loot = await InstantiateAndInject(path);
+
+            AddFaderComponentIfNeeded(loot);
+
+            LootObject = loot;
+
+            return LootObject;
         }
 
-        private GameObject CreateGameObjectFromPrefab(string prefabPath)
+        private void AddFaderComponentIfNeeded(GameObject lootObject)
         {
-            GameObject prefab = assetProvider.GetPrefab<GameObject>(prefabPath);
-            return container.Instantiate(prefab);
-        }
+            bool needFader = false;
 
-        private T CreateComponentFromPrefab<T>(string prefabPath) where T : Component
-        {
-            GameObject prefab = assetProvider.GetPrefab<GameObject>(prefabPath);
-            GameObject obj = container.Instantiate(prefab);
-            return obj.GetComponent<T>();
-        }
+            if (lootObject.TryGetComponent(out CoinLoot coin)) needFader = true;
+            else if (lootObject.TryGetComponent(out HealingPotionLoot potion)) needFader = true;
 
+            if (needFader)
+            {
+                var fader = lootObject.AddComponent<LootFader>();
+            }
+        }
+        #endregion
+
+        #region Create Enemy
         public async Task<GameObject> CreateEnemyAsync(EnemyID id, Vector3 position)
         {
             EnemyConfig enemyConfig = configProvider.GetEnemyConfig(id);
@@ -117,5 +169,22 @@ namespace CodeBase.Infrastructure.Services.Factory
 
             return enemy;
         }
+        #endregion
+
+        /*
+        private GameObject CreateGameObjectFromPrefab(string prefabPath)
+        {
+            GameObject prefab = assetProvider.GetPrefab<GameObject>(prefabPath);
+            return container.Instantiate(prefab);
+        }
+
+        private T CreateComponentFromPrefab<T>(string prefabPath) where T : Component
+        {
+            GameObject prefab = assetProvider.GetPrefab<GameObject>(prefabPath);
+            GameObject obj = container.Instantiate(prefab);
+            return obj.GetComponent<T>();
+        }
+        */
+
     }
 }

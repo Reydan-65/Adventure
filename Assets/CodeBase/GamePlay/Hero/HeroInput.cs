@@ -21,7 +21,7 @@ namespace CodeBase.GamePlay.Hero
             if (heroMovement == null) return;
             if (inputService == null) return;
 
-            heroMovement.SetMevementDirection(inputService.MovementAxis);
+            heroMovement.SetMovementDirection(inputService.MovementAxis);
         }
     }
 }

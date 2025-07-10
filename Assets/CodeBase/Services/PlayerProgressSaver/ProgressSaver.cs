@@ -29,9 +29,7 @@ namespace CodeBase.Infrastructure.Services.PlayerProgressSaver
                 if (loadHandler != null)
                 {
                     if (progressLoadHandlers.Contains(loadHandler) == false)
-                    {
                         progressLoadHandlers.Add(loadHandler);
-                    }
                 }
             }
 
@@ -40,9 +38,7 @@ namespace CodeBase.Infrastructure.Services.PlayerProgressSaver
                 if (saveHandler != null)
                 {
                     if (progressBeforeSaveHandlers.Contains(saveHandler) == false)
-                    {
                         progressBeforeSaveHandlers.Add(saveHandler);
-                    }
                 }
             }
         }
@@ -56,14 +52,11 @@ namespace CodeBase.Infrastructure.Services.PlayerProgressSaver
         public void LoadProgress()
         {
             if (PlayerPrefs.HasKey(ProgressKey) == false)
-            {
                 progressProvider.PlayerProgress = PlayerProgress.GetDefaultProgress();
-                Debug.Log("Progress loaded : DEFAULT!");
-            }
             else
             {
                 progressProvider.PlayerProgress = JsonUtility.FromJson<PlayerProgress>(PlayerPrefs.GetString(ProgressKey));
-                Debug.Log("Progress loaded : FROM SAVE!");
+                Debug.Log($"PROGRESS LOADED: FROM SAVE!");
             }
 
             foreach (IProgressLoadHandler loadHandler in progressLoadHandlers)
@@ -81,7 +74,12 @@ namespace CodeBase.Infrastructure.Services.PlayerProgressSaver
 
             PlayerPrefs.SetString(ProgressKey, JsonUtility.ToJson(progressProvider.PlayerProgress));
 
-            Debug.Log("Progress saved!");
+            Debug.Log("PROGRESS SAVED!");
+        }
+
+        public PlayerProgress GetProgress()
+        {
+            return progressProvider.PlayerProgress;
         }
     }
 }

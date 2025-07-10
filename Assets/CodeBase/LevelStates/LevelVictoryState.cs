@@ -29,12 +29,13 @@ namespace CodeBase.Infrastructure.Services.LevelStates
             this.progressProvider = progressProvider;
             this.progressSaver = progressSaver;
             this.windowsProvider = windowsProvider;
-            this.windowsProvider = windowsProvider;
             this.configsProvider = configsProvider;
         }
 
         public void Enter()
         {
+            UnityEngine.Debug.Log("LEVEL: Victory State");
+
             inputService.Enable = false;
             gameFactory.VirtualJoystick.gameObject.SetActive(false);
 
@@ -50,8 +51,8 @@ namespace CodeBase.Infrastructure.Services.LevelStates
         {
             progressProvider.PlayerProgress.CurrentLevelIndex++;
 
-            if (progressProvider.PlayerProgress.CurrentLevelIndex > configsProvider.LevelAmount - 1)
-                progressProvider.PlayerProgress.CurrentLevelIndex = configsProvider.LevelAmount - 1;
+            //if (progressProvider.PlayerProgress.CurrentLevelIndex > configsProvider.LevelAmount - 1)
+            //    progressProvider.PlayerProgress.CurrentLevelIndex = configsProvider.LevelAmount - 1;
         }
 
         private void UpdateHeroStats()

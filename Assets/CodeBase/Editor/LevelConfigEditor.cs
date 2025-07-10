@@ -1,5 +1,4 @@
 using CodeBase.Configs;
-using static UnityEngine.GraphicsBuffer;
 using UnityEditor.SceneManagement;
 using UnityEditor;
 using UnityEngine;
@@ -15,7 +14,6 @@ public class LevelConfigEditor : Editor
 
         GUILayout.Space(10);
 
-        // Кнопка для связывания с текущей открытой сценой
         if (GUILayout.Button("Link to Current Scene"))
         {
             SceneAsset currentScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(

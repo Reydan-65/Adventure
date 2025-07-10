@@ -20,7 +20,7 @@ namespace CodeBase.GamePlay.Hero
                 Initialize(max);
         }
 
-        private void Initialize(float max)
+        public void Initialize(float max)
         {
             this.max = max;
             current = max;
@@ -39,16 +39,14 @@ namespace CodeBase.GamePlay.Hero
             }
         }
 
-        private void RestoreHealth(float value)
+        public void RestoreHealth(float value)
         {
             if (current == max || value == 0) return;
 
             current += value;
 
             if (current > max)
-            {
                 current = max;
-            }
 
             InvokeChangedEvent();
         }

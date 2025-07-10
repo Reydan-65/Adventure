@@ -1,6 +1,5 @@
 using CodeBase.GamePlay.UI.Services;
 using CodeBase.Infrastructure.Services.Factory;
-using UnityEngine;
 
 namespace CodeBase.Infrastructure.Services.LevelStates
 {
@@ -22,6 +21,8 @@ namespace CodeBase.Infrastructure.Services.LevelStates
 
         public void Enter()
         {
+            UnityEngine.Debug.Log("LEVEL: Lost State");
+
             inputService.Enable = false;
             gameFactory.VirtualJoystick.gameObject.SetActive(false);
 

@@ -1,7 +1,4 @@
 namespace CodeBase.Infrastructure.DependencyInjection
 {
-    public interface IService
-    {
-        
-    }
+    public interface IService { }
 }

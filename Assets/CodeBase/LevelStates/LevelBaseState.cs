@@ -25,9 +25,7 @@ namespace CodeBase.Infrastructure.Services.LevelStates
                 EnemyHeroPersuer persuer = enemy.GetComponent<EnemyHeroPersuer>();
 
                 if (persuer != null)
-                {
                     subscribeAction(persuer);
-                }
             }
         }
 

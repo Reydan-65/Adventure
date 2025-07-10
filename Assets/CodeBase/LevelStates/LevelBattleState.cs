@@ -1,5 +1,4 @@
 using CodeBase.Infrastructure.Services.Factory;
-using UnityEngine;
 
 namespace CodeBase.Infrastructure.Services.LevelStates
 {
@@ -24,7 +23,7 @@ namespace CodeBase.Infrastructure.Services.LevelStates
 
             UpdatePersuerCount();
 
-            Debug.Log("LEVEL: Battle State");
+            UnityEngine.Debug.Log("LEVEL: Battle State");
         }
 
         public void Exit()
@@ -46,15 +45,11 @@ namespace CodeBase.Infrastructure.Services.LevelStates
         private void OnPersuitTarget()
         {
             activePersuersCount++;
-
-            Debug.Log("Persuer count: " + activePersuersCount);
         }
 
         private void OnLostTarget()
         {
             activePersuersCount--;
-
-            Debug.Log("Persuer count: " + activePersuersCount);
 
             if (activePersuersCount == 0)
                 levelStateSwitcher.Enter<LevelResearchState>();

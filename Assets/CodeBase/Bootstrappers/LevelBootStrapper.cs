@@ -13,12 +13,13 @@ namespace CodeBase.Infrastructure
         private LevelBattleState levelCombatState;
 
         [Inject]
-        public void Construct(ILevelStateSwitcher levelStateSwitcher, 
-                              LevelBootStrapState levelBootStrappState,
-                              LevelResearchState levelResearchState,
-                              LevelVictoryState levelVictoryState,
-                              LevelLostState levelLostState,
-                              LevelBattleState levelCombatState)
+        public void Construct(
+            ILevelStateSwitcher levelStateSwitcher,
+            LevelBootStrapState levelBootStrappState,
+            LevelResearchState levelResearchState,
+            LevelVictoryState levelVictoryState,
+            LevelLostState levelLostState,
+            LevelBattleState levelCombatState)
         {
             this.levelStateSwitcher = levelStateSwitcher;
             this.levelBootStrappState = levelBootStrappState;
@@ -28,10 +29,7 @@ namespace CodeBase.Infrastructure
             this.levelCombatState = levelCombatState;
         }
 
-        public override void OnBindResolved()
-        {
-            InitLevelStateMachine();
-        }
+        public override void OnBindResolved() => InitLevelStateMachine();
 
         private void InitLevelStateMachine()
         {

@@ -10,14 +10,7 @@ namespace CodeBase.GamePlay.Enemies
 
         [SerializeField] private Animator animator;
 
-        public void PlayAttack()
-        {
-            animator.SetTrigger(AttackTrigger);
-        }
-
-        public void SetMove(bool move)
-        {
-            animator.SetBool(IsMoving, move);
-        }
+        public void PlayAttack() => animator.SetTrigger(AttackTrigger);
+        public void SetMove(bool move) => animator.SetBool(IsMoving, move);
     }
 }

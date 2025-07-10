@@ -1,7 +1,9 @@
 using CodeBase.Configs;
+using CodeBase.Data;
 using CodeBase.GamePlay;
 using CodeBase.Infrastructure.Services.ConfigProvider;
 using CodeBase.Infrastructure.Services.Factory;
+using CodeBase.Infrastructure.Services.PlayerProgressProvider;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,12 +15,18 @@ namespace CodeBase.Infrastructure.Services.LevelStates
         private IConfigsProvider configProvider;
 
         private LevelConfig levelConfig;
+        private IProgressProvider progressProvider;
+        private HeroInventoryData inventoryData;
 
-        public LevelResearchState(IGameFactory gameFactory, ILevelStateSwitcher levelStateSwitcher,
-            IConfigsProvider configProvider)
+        public LevelResearchState(
+            IGameFactory gameFactory,
+            ILevelStateSwitcher levelStateSwitcher,
+            IConfigsProvider configProvider,
+            IProgressProvider progressProvider)
         : base(gameFactory, levelStateSwitcher)
         {
             this.configProvider = configProvider;
+            this.progressProvider = progressProvider;
         }
 
         public void Enter()
@@ -26,6 +34,7 @@ namespace CodeBase.Infrastructure.Services.LevelStates
             activePersuersCount = 0;
 
             levelConfig = configProvider.GetLevelConfig(SceneManager.GetActiveScene().name);
+            inventoryData = progressProvider.PlayerProgress.HeroInventoryData;
 
             gameFactory.HeroHealth.Die += OnHeroDie;
 
@@ -59,17 +68,17 @@ namespace CodeBase.Infrastructure.Services.LevelStates
 
         private void CheckVictory()
         {
-            if (Vector3.Distance(gameFactory.HeroObject.transform.position, levelConfig.FinishPoint) < FinishPoint.Radius)
+            if (Vector3.Distance(gameFactory.HeroObject.transform.position, levelConfig.FinishPoint) < FinishPoint.Radius
+                                 && inventoryData.HasKey)
             {
                 levelStateSwitcher.Enter<LevelVictoryState>();
+                inventoryData.HasKey = false;
             }
         }
 
         private void OnPersuitTarget()
         {
             activePersuersCount++;
-
-            Debug.Log("Persuer count: " + activePersuersCount);
 
             levelStateSwitcher.Enter<LevelBattleState>();
         }

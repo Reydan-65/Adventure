@@ -9,8 +9,10 @@ namespace CodeBase.GamePlay.UI.Services
     {
         Transform UIRoot { get; set; }
         Task WarmUp();
-        Task<LevelResultPresenter> CreateLevelResultWindow(WindowConfig config);
-        Task<MainMenuPresenter> CreateMainMenuWindow(WindowConfig config);
+        Task<LevelResultPresenter> CreateLevelResultWindowAsync(WindowConfig config);
+        Task<MainMenuPresenter> CreateMainMenuWindowAsync(WindowConfig config);
+        Task<ShopPresenter> CreateShopWindowAsync(WindowConfig config);
+        Task<ShopItem> CreateShopItemAsync();
         void CreateUIRoot();
     }
 }

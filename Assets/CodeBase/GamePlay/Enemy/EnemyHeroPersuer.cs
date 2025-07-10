@@ -36,13 +36,9 @@ namespace CodeBase.GamePlay.Enemies
                                     gameFactory.HeroObject.transform.position) <= viewDistance;
 
             if (isInRange && !hasTarget)
-            {
                 StartPersuit();
-            }
             else if (!isInRange && hasTarget)
-            {
                 StopPersuit();
-            }
         }
 
         private void StartPersuit()

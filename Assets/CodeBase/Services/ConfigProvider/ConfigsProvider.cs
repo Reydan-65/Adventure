@@ -16,7 +16,13 @@ namespace CodeBase.Infrastructure.Services.ConfigProvider
         private Dictionary<EnemyID, EnemyConfig> enemies;
         private Dictionary<string, LevelConfig> levels;
         private Dictionary<WindowID, WindowConfig> windows;
+        private Dictionary<int, ProductConfig> products;
         private LevelConfig[] levelList;
+
+        public ConfigsProvider()
+        {
+            Load();
+        }
 
         public int LevelAmount => levelList.Length;
 
