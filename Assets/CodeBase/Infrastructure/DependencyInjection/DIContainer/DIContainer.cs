@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using System.Linq;
 
 namespace CodeBase.Infrastructure.DependencyInjection
 {
-    public class DIContainer : IService
+    public class DIContainer : IService, IDisposable
     {
         private readonly Dictionary<Type, IService> services = new Dictionary<Type, IService>();
 
@@ -147,5 +148,14 @@ namespace CodeBase.Infrastructure.DependencyInjection
         }
 
         #endregion
+
+        public void Dispose()
+        {
+            foreach (var service in services.Values.OfType<IDisposable>())
+            {
+                service.Dispose();
+            }
+            services.Clear();
+        }
     }
 }

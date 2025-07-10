@@ -1,4 +1,5 @@
-﻿using CodeBase.Infrastructure.DependencyInjection;
+﻿using CodeBase.Data;
+using CodeBase.Infrastructure.DependencyInjection;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure.Services.PlayerProgressSaver
@@ -9,5 +10,6 @@ namespace CodeBase.Infrastructure.Services.PlayerProgressSaver
         void ClearObjects();
         void LoadProgress();
         void SaveProgress();
+        PlayerProgress GetProgress();
     }
 }

@@ -36,7 +36,6 @@ namespace CodeBase.GamePlay.Enemies
         private void Update()
         {
             if (gameFactory.HeroObject == null) return;
-
             if (Vector3.Distance(agent.transform.position, gameFactory.HeroObject.transform.position) <= stopDistance) return;
 
             agent.destination = gameFactory.HeroObject.transform.position;

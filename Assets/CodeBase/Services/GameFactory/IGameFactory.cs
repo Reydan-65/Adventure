@@ -1,3 +1,4 @@
+using CodeBase.Data;
 using CodeBase.GamePlay.Enemies;
 using CodeBase.GamePlay.Hero;
 using CodeBase.Infrastructure.DependencyInjection;
@@ -16,6 +17,7 @@ namespace CodeBase.Infrastructure.Services.Factory
         Task<VirtualJoystick> CreateJoystickAsync();
         Task<FollowCamera> CreateFollowCameraAsync();
         Task<GameObject> CreateEnemyAsync(EnemyID id, Vector3 position);
+        Task<GameObject> CreateLootItemFromPrefab(LootItemID id);
         Task WarmUp();
 
         GameObject HeroObject { get; }
@@ -25,5 +27,7 @@ namespace CodeBase.Infrastructure.Services.Factory
         VirtualJoystick VirtualJoystick { get; }
         FollowCamera FollowCamera { get; }
         List<GameObject> EnemiesObject { get; }
+        public GameObject LootObject { get; }
+
     }
 }

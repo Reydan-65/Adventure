@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace CodeBase.Data
 {
-    [System.Serializable]
+    [Serializable]
     public class HeroInventoryData
     {
         public event Action<int> CoinValueChanged;
+        public event Action KeyPickuped;
 
-        // DEBUG
         [SerializeField] private int coinAmount;
 
         public int CoinAmount
@@ -17,19 +17,43 @@ namespace CodeBase.Data
             set
             {
                 coinAmount = value;
-                CoinValueChanged?.Invoke(coinAmount);
+                CoinValueChanged?.Invoke(this.coinAmount);
             }
         }
 
-        public static HeroInventoryData Default()
+        [SerializeField] private bool hasKey;
+
+        public bool HasKey
         {
-            return new HeroInventoryData { CoinAmount = 0 };
+            get => hasKey;
+            set
+            {
+                if (hasKey != value)
+                {
+                    hasKey = value;
+                    KeyPickuped?.Invoke();
+                }
+            }
+        }
+
+        public void GetDefaultInventoryData()
+        {
+            CoinAmount = 0;
+            hasKey = false;
+        }
+
+        public void CopyFrom(HeroInventoryData data)
+        {
+            CoinAmount = data.CoinAmount;
+            HasKey = data.HasKey;
         }
 
         public void AddCoin(int coinAmount)
         {
             this.coinAmount += coinAmount;
-            CoinValueChanged?.Invoke(coinAmount);
+            CoinValueChanged?.Invoke(this.coinAmount);
+
+            //Debug.Log($"Coins changed: {this.coinAmount}");
         }
 
         public bool SpendCoins(int coinAmount)

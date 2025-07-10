@@ -2,10 +2,10 @@ using CodeBase.Infrastructure.DependencyInjection;
 using CodeBase.Infrastructure.Services.PlayerProgressSaver;
 using CodeBase.Infrastructure.Services.ConfigProvider;
 using CodeBase.Infrastructure.Services.GameStateMachine;
-using UnityEngine.SceneManagement;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
 using CodeBase.GamePlay.UI.Services;
+using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
+using UnityEngine;
 
 namespace CodeBase.Infrastructure.Services.GameStates
 {
@@ -16,30 +16,37 @@ namespace CodeBase.Infrastructure.Services.GameStates
         private IConfigsProvider configProvider;
         private IUIFactory uiFactory;
         private IAdsService adsService;
+        private IIApService iApService;
 
         public GameBootStrapState(
             IGameStateSwitcher gameStateSwitcher,
             IProgressSaver progressSaver,
             IConfigsProvider configProvider,
             IUIFactory uiFactory,
-            IAdsService adsService)
+            IAdsService adsService,
+            IIApService iApService)
         {
             this.gameStateSwitcher = gameStateSwitcher;
             this.progressSaver = progressSaver;
             this.configProvider = configProvider;
             this.uiFactory = uiFactory;
             this.adsService = adsService;
+            this.iApService = iApService;
         }
 
-        public void Enter()
+        public async void Enter()
         {
-            uiFactory.WarmUp();
+            await Unity.Services.Core.UnityServices.InitializeAsync();
 
-            configProvider.Load();
+            iApService.Initialize();
 
             adsService.Initialize();
             adsService.LoadInterstitial();
             adsService.LoadRewarded();
+
+            configProvider.Load();
+
+            await uiFactory.WarmUp();
 
             progressSaver.LoadProgress();
 

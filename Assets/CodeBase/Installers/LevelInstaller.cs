@@ -10,7 +10,7 @@ namespace CodeBase.Infrastructure
 
         public override void InstallBindings()
         {
-            Debug.Log("LEVEL: Install");
+            //Debug.Log("LEVEL: Install");
 
             container.RegisterSingle(levelStateMachineTicker);
 

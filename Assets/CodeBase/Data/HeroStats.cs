@@ -17,5 +17,12 @@ namespace CodeBase.Data
 
             return stats;
         }
+
+        public void CopyFrom(HeroStats data)
+        {
+            Damage = data.Damage;
+            MaxHitPoints= data.MaxHitPoints;
+            MovementSpeed = data.MovementSpeed;
+        }
     }
 }

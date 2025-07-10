@@ -10,6 +10,8 @@ namespace CodeBase.Editor
         {
             PlayerPrefs.DeleteAll();
             PlayerPrefs.Save();
+
+            Debug.Log("PROGRESS DELETED!");
         }
     }
 }

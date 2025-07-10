@@ -16,9 +16,6 @@ namespace CodeBase.GamePlay.Hero
             animator.SetBool(IsMoving, characterController.velocity.magnitude >= MovementTreshold);
         }
 
-        public void Attack()
-        {
-            animator.SetTrigger(AttackTrigger);
-        }
+        public void Attack() => animator.SetTrigger(AttackTrigger);
     }
 }

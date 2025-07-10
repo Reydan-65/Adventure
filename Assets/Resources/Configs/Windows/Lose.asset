@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: Lose
   m_EditorClassIdentifier: 
   WindowID: 3
-  Title: Lose
+  Title: LOSE
   PrefabReference:
     m_AssetGUID: 293cc2b838445ae40b95f29579ad1ed9
     m_SubObjectName: 
     m_SubObjectType: 
-    m_SubObjectGUID: 
     m_EditorAssetChanged: 0

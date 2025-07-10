@@ -33,7 +33,7 @@ namespace CodeBase.Infrastructure.Services.LevelStates
 
         public async void Enter()
         {
-            Debug.Log("LEVEL: Init");
+            //Debug.Log("LEVEL: Init");
 
             progressSaver.ClearObjects();
 
@@ -42,7 +42,6 @@ namespace CodeBase.Infrastructure.Services.LevelStates
             string sceneName = SceneManager.GetActiveScene().name;
             LevelConfig levelConfig = configProvider.GetLevelConfig(sceneName);
 
-            // Временно
             EnemySpawner[] enemySpawners = GameObject.FindObjectsByType<EnemySpawner>(0);
 
             for (int i = 0; i < enemySpawners.Length; i++)
@@ -51,7 +50,7 @@ namespace CodeBase.Infrastructure.Services.LevelStates
             }
 
             await gameFactory.CreateHeroAsync(levelConfig.HeroSpawnPoint, Quaternion.identity);
-            
+
             FollowCamera followCamera = await gameFactory.CreateFollowCameraAsync();
             followCamera.SetTarget(gameFactory.HeroObject.transform);
             

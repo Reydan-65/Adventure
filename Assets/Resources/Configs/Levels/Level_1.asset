@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SceneName: Level_1
   HeroSpawnPoint: {x: 0, y: 0, z: 0}
-  FinishPoint: {x: 0, y: 0, z: 43}
+  FinishPoint: {x: 0.38, y: 0, z: 108.17}
   linkedScene: {fileID: 102900000, guid: 0867e695775c860428498d24a8bc81f9, type: 3}

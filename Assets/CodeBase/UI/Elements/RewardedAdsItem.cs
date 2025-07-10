@@ -54,6 +54,8 @@ namespace CodeBase.GamePlay.UI
                 progressProvider.PlayerProgress.HeroInventoryData.AddCoin(rewardAmount);
                 progressSaver.SaveProgress();
             });
+
+            showAdsButton.gameObject.SetActive(false);
         }
     }
 }

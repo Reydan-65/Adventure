@@ -1,53 +1,56 @@
 using CodeBase.Data;
-using CodeBase.Infrastructure.Services.PlayerProgressSaver;
+using CodeBase.Infrastructure.DependencyInjection;
+using CodeBase.Infrastructure.Services.PlayerProgressProvider;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace CodeBase.GamePlay.Hero
 {
-    public class HeroInventory : MonoBehaviour, IProgressBeforeSaveHandler, IProgressLoadHandler
+    public class HeroInventory : MonoBehaviour
     {
-        #region Coins
-        [SerializeField] private HeroInventoryData inventoryData = new HeroInventoryData();
+        private IProgressProvider progressProvider;
 
+        private HeroInventoryData inventoryData;
         public event UnityAction<int> OnCoinAmountChanged;
 
-        public int CoinAmount
+        [Inject]
+        public void Construct(IProgressProvider progressProvider)
         {
-            get => inventoryData.CoinAmount;
-            private set
+            this.progressProvider = progressProvider;
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            if (progressProvider?.PlayerProgress?.HeroInventoryData == null) return;
+
+            inventoryData = progressProvider.PlayerProgress.HeroInventoryData;
+            inventoryData.CoinValueChanged += OnCoinChanged;
+            OnCoinChanged(inventoryData.CoinAmount);
+        }
+
+        private void OnCoinChanged(int newValue)
+        {
+            OnCoinAmountChanged?.Invoke(newValue);
+        }
+
+        private void OnDestroy()
+        {
+            if (inventoryData != null)
+                inventoryData.CoinValueChanged -= OnCoinChanged;
+        }
+
+        public void SyncWithData(HeroInventoryData newInventoryData)
+        {
+            if (newInventoryData == null || inventoryData== null) return;
+
+            int oldCoins = inventoryData.CoinAmount;
+            bool oldKeyState = inventoryData.HasKey;
+
+            if (oldCoins != inventoryData.CoinAmount)
             {
-                inventoryData.CoinAmount = value;
-                OnCoinAmountChanged?.Invoke(inventoryData.CoinAmount);
+                OnCoinChanged(inventoryData.CoinAmount);
             }
         }
-
-        public void LoadProgress(PlayerProgress progress)
-        {
-            if (progress?.HeroInventoryData == null) return;
-
-            inventoryData = progress.HeroInventoryData;
-            OnCoinAmountChanged?.Invoke(CoinAmount);
-        }
-
-        public void UpdateProgressBeforeSave(PlayerProgress progress)
-        {
-            if (progress?.HeroInventoryData == null) return;
-
-            progress.HeroInventoryData.CoinAmount = CoinAmount;
-        }
-
-        public static HeroInventory Create(Transform parent = null)
-        {
-            GameObject go = new GameObject("HeroInventory");
-            if (parent != null)
-                go.transform.SetParent(parent);
-
-            var inventory = go.AddComponent<HeroInventory>();
-            inventory.inventoryData = HeroInventoryData.Default();
-            return inventory;
-        }
-
-        #endregion
     }
 }

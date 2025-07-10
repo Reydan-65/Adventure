@@ -25,7 +25,7 @@ namespace CodeBase.Infrastructure.Services.GameStates
         public void Enter()
         {
             assetProvider.CleanUp();
-
+            
             sceneLoader.Load(Constants.MainMenuSceneName, 
                 onLoaded: () => windowsProvider.Open(WindowID.MainMenuWindow));
         }

@@ -16,10 +16,9 @@ MonoBehaviour:
     m_AssetGUID: f470e8f304d967f4d914fbaedca0a8e4
     m_SubObjectName: 
     m_SubObjectType: 
-    m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   EnemyID: 0
-  MaxHitPoints: 50
+  MaxHitPoints: 100
   MovementSpeed: 4
   StopDistance: 1.2
   AttackCooldown: 1.5

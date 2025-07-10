@@ -22,10 +22,13 @@ namespace CodeBase.GamePlay.UI.Services
             WindowConfig config = configsProvider.GetWindowConfig(id);
 
             if (id == WindowID.VictoryWindow || id == WindowID.LoseWindow)
-                factory.CreateLevelResultWindow(config);
+                factory.CreateLevelResultWindowAsync(config);
 
             if (id == WindowID.MainMenuWindow)
-                factory.CreateMainMenuWindow(config);
+                factory.CreateMainMenuWindowAsync(config);
+
+            if (id == WindowID.ShopWindow)
+                factory.CreateShopWindowAsync(config);
         }
     }
 }

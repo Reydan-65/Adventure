@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: Victory
   m_EditorClassIdentifier: 
   WindowID: 2
-  Title: Victory
+  Title: VICTORY
   PrefabReference:
     m_AssetGUID: 72e8f389cfbd9c44ea664c360952f805
     m_SubObjectName: 
     m_SubObjectType: 
-    m_SubObjectGUID: 
     m_EditorAssetChanged: 0

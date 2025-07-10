@@ -8,6 +8,7 @@ namespace CodeBase.GamePlay.UI
     public abstract class WindowBase : MonoBehaviour
     {
         public event UnityAction CleanUped;
+        public event UnityAction Closed;
 
         [SerializeField] private Button closeButton;
         [SerializeField] private TextMeshProUGUI titleText;
@@ -15,18 +16,19 @@ namespace CodeBase.GamePlay.UI
         private void Awake()
         {
             OnAwake();
-            closeButton?.onClick.AddListener(OnClose);
+            closeButton?.onClick.AddListener(Close);
         }
 
         private void OnDestroy()
         {
-            closeButton?.onClick.RemoveListener(OnClose);
+            closeButton?.onClick.RemoveListener(Close);
             OnCleanUp();
             CleanUped?.Invoke();
         }
 
         public void Close()
         {
+            Closed?.Invoke();
             OnClose();
         }
 

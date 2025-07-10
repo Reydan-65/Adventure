@@ -21,47 +21,53 @@ namespace CodeBase.Infrastructure.AssetManagment
 
         public T Instantiate<T>(string prefabPath) where T : Object
         {
-            T obj = Resources.Load<T>(prefabPath);
-            return GameObject.Instantiate(obj);
+            var prefab = GetPrefab<T>(prefabPath);
+            return Object.Instantiate(prefab);
         }
 
-        public async Task<TType> Load<TType>(AssetReference assetReference) 
-            where TType : class
+        public async Task<TType> Load<TType>(string address) where TType : class =>
+            await LoadAsset<TType>(address, address);
+
+        public async Task<TType> Load<TType>(AssetReference assetReference) where TType : class =>
+            await LoadAsset<TType>(assetReference.AssetGUID, assetReference);
+
+        private async Task<TType> LoadAsset<TType>(string cacheKey, object loadSource) where TType : class
         {
-            if (cacheHandle.TryGetValue(assetReference.AssetGUID, out AsyncOperationHandle handle))
-            {
-                return handle.Result as TType;
-            }
+            if (cacheHandle.TryGetValue(cacheKey, out var cachedHandle))
+                return cachedHandle.Result as TType;
 
-            AsyncOperationHandle<TType> loadOperationHandle = Addressables.LoadAssetAsync<TType>(assetReference.AssetGUID);
+            var loadHandle = CreateLoadHandle<TType>(loadSource);
+            RegisterHandle(cacheKey, loadHandle);
 
-            loadOperationHandle.Completed += (h) =>
+            return await loadHandle.Task;
+        }
+
+        private AsyncOperationHandle<TType> CreateLoadHandle<TType>(object loadSource) where TType : class =>
+            loadSource switch
             {
-                cacheHandle[assetReference.AssetGUID] = h;
+                string address => Addressables.LoadAssetAsync<TType>(address),
+                AssetReference reference => Addressables.LoadAssetAsync<TType>(reference),
+                _ => throw new System.ArgumentException("Unsupported load source type")
             };
 
-            AddHandle(assetReference.AssetGUID, loadOperationHandle);
-
-            return await loadOperationHandle.Task;
-        }
-
-        private void AddHandle<TType>(string assetGUID, AsyncOperationHandle<TType> operationHandle) 
-            where TType : class
+        private void RegisterHandle<TType>(string key, AsyncOperationHandle<TType> handle) where TType : class
         {
-            if (allHandles.TryGetValue(assetGUID, out List<AsyncOperationHandle> handles) == false)
+            handle.Completed += h => cacheHandle[key] = h;
+
+            if (!allHandles.TryGetValue(key, out var handles))
             {
                 handles = new List<AsyncOperationHandle>();
-                allHandles[assetGUID] = handles;
+                allHandles[key] = handles;
             }
 
-            handles.Add(operationHandle);
+            handles.Add(handle);
         }
 
         public void CleanUp()
         {
-            foreach (List<AsyncOperationHandle> operationHandles in allHandles.Values)
+            foreach (var handles in allHandles.Values)
             {
-                foreach (AsyncOperationHandle handle in operationHandles)
+                foreach (var handle in handles)
                 {
                     Addressables.Release(handle);
                 }
