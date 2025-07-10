@@ -20,8 +20,8 @@ MonoBehaviour:
   EnemyID: 0
   MaxHitPoints: 100
   MovementSpeed: 4
-  StopDistance: 1.2
+  StopDistance: 1.3
   AttackCooldown: 1.5
-  AttackRadius: 1.3
+  AttackRadius: 1.5
   Damage: 5
   todo: TO DO

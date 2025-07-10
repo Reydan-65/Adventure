@@ -167,7 +167,7 @@ MonoBehaviour:
   heroMovement: {fileID: 8243511347691144081}
   heroAnimator: {fileID: 8114282359483863248}
   cooldown: 3
-  radius: 1
+  radius: 1.2
   damage: 30
 --- !u!114 &8642072746342765741
 MonoBehaviour:
@@ -194,9 +194,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2344592d02f8acf4fb95b74ff429f051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryData:
-    coinAmount: 0
-    hasKey: 0
 --- !u!1001 &2068547963601612424
 PrefabInstance:
   m_ObjectHideFlags: 0
