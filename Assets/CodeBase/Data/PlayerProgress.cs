@@ -17,7 +17,7 @@ namespace CodeBase.Data
 
             progress.CurrentLevelIndex = 0;
             progress.HeroStats = HeroStats.GetDefaultStats();
-            progress.HeroInventoryData.GetDefaultInventoryData();
+            progress.HeroInventoryData.SetDefaultInventoryData();
             progress.PurchaseData = new PurchaseData();
             progress.HeroSkinID = HeroSkinID.Male;
 

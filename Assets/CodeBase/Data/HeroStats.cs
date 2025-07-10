@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace CodeBase.Data
 {
     [System.Serializable]
@@ -14,8 +16,15 @@ namespace CodeBase.Data
             stats.Damage = 60;
             stats.MaxHitPoints = 100;
             stats.MovementSpeed = 5;
-
+            
             return stats;
+        }
+
+        public void SetDefaultStats()
+        {
+            Damage = 60;
+            MaxHitPoints = 100;
+            MovementSpeed = 5;
         }
 
         public void CopyFrom(HeroStats data)

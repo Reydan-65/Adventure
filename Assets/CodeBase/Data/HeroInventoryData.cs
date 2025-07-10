@@ -36,7 +36,7 @@ namespace CodeBase.Data
             }
         }
 
-        public void GetDefaultInventoryData()
+        public void SetDefaultInventoryData()
         {
             CoinAmount = 0;
             hasKey = false;

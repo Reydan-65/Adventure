@@ -120,8 +120,9 @@ namespace CodeBase.GamePlay.UI
             progressProvider.PlayerProgress.CurrentLevelIndex = 0;
             progressProvider.PlayerProgress.HeroSkinID = HeroSkinID.Male;
 
-            progressProvider.PlayerProgress.HeroInventoryData.GetDefaultInventoryData();
+            progressProvider.PlayerProgress.HeroInventoryData.SetDefaultInventoryData();
             progressProvider.PlayerProgress.PurchaseData = new PurchaseData();
+            progressProvider.PlayerProgress.HeroStats.SetDefaultStats();
 
             UpdateSkin();
             window.SetLevelIndex(progressProvider.PlayerProgress.CurrentLevelIndex);

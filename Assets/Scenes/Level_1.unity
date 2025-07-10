@@ -19585,7 +19585,6 @@ GameObject:
   - component: {fileID: 2629900432771982451}
   - component: {fileID: 260012283849461945}
   - component: {fileID: 639312954804311067}
-  - component: {fileID: 2629900432771982452}
   m_Layer: 0
   m_Name: Gates_1
   m_TagString: Untagged
@@ -19606,18 +19605,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1773085350327644524}
   m_Mesh: {fileID: -5523277661179574252, guid: c9d0aaac7427a28419384efd573f87be, type: 3}
---- !u!114 &2629900432771982452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1773085350327644524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 857a1d2e99dc253458e8f5c960485477, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &5512203457740571829
 PrefabInstance:
   m_ObjectHideFlags: 0
